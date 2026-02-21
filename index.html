@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>エジソンがいなければ：電気のない世界</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #12121a;
+      --bg-card: #1a1a2e;
+      --text-primary: #e0ddd5;
+      --text-secondary: #8a8a9a;
+      --accent: #4a9eff;
+      --accent-dim: #2a5a9a;
+      --gold: #c4a35a;
+      --chapter-border: #2a2a3e;
+      --serif: 'Noto Serif JP', 'Hiragino Mincho ProN', serif;
+      --sans: 'Zen Kaku Gothic New', 'Hiragino Kaku Gothic ProN', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: var(--serif);
+      font-size: 17px;
+      line-height: 1.95;
+      min-height: 100vh;
+    }
+
+    /* ─── Header ─── */
+    .hero {
+      position: relative;
+      text-align: center;
+      padding: 100px 20px 80px;
+      background: linear-gradient(180deg, #1a2a4a 0%, #0f1a2f 100%);
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 30%, rgba(120,180,255,0.15) 0%, transparent 70%);
+    }
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 5vw, 3.2rem);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: #ffffff;
+      text-shadow: 0 2px 20px rgba(100,160,255,0.3);
+      margin-bottom: 12px;
+      position: relative;
+    }
+    .hero-sub {
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      color: #b0c4de;
+      letter-spacing: 0.15em;
+    }
+    .hero-line {
+      width: 60px; height: 1px;
+      background: var(--gold);
+      margin: 28px auto 0;
+    }
+
+    /* ─── Digest Carousel ─── */
+    .carousel-wrap {
+      background: linear-gradient(180deg, #0f1a2f 0%, #0a0e18 100%);
+      padding: 24px 0 20px;
+      overflow: hidden;
+    }
+    .carousel-track {
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      padding: 0 calc((100vw - min(85vw, 600px)) / 2);
+      scrollbar-width: none;
+    }
+    .carousel-track::-webkit-scrollbar { display: none; }
+    .carousel-slide {
+      flex: 0 0 min(85vw, 280px);
+      scroll-snap-align: center;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      text-decoration: none;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      transition: transform 0.2s;
+      aspect-ratio: 3/2;
+    }
+    .carousel-slide:active { transform: scale(0.97); }
+    .carousel-slide img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .carousel-caption {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(0,0,0,0.85));
+      padding: 28px 12px 10px;
+      color: #fff;
+      font-size: 0.85rem;
+      font-family: var(--serif);
+      line-height: 1.4;
+    }
+    .carousel-ch {
+      display: inline-block;
+      font-size: 0.7rem;
+      color: var(--gold);
+      margin-right: 6px;
+      font-family: var(--sans);
+      letter-spacing: 0.06em;
+    }
+    .carousel-dots {
+      text-align: center;
+      padding-top: 12px;
+    }
+    .carousel-dot {
+      display: inline-block;
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.25);
+      margin: 0 4px;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.3s;
+    }
+    .carousel-dot.active {
+      background: var(--gold);
+      transform: scale(1.3);
+    }
+    @media (min-width: 600px) {
+      .carousel-slide { flex: 0 0 280px; }
+      .carousel-track { padding: 0 calc((100vw - 900px) / 2); gap: 18px; }
+    }
+
+    /* ─── Navigation ─── */
+    .nav-bar {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(10,10,15,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--chapter-border);
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      overflow-x: auto;
+      font-family: var(--sans);
+      font-size: 0.8rem;
+    }
+    .nav-bar .nav-title {
+      color: var(--gold);
+      font-weight: 700;
+      white-space: nowrap;
+      margin-right: 8px;
+    }
+    .nav-bar a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      white-space: nowrap;
+      padding: 4px 10px;
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+    .nav-bar a:hover {
+      color: var(--accent);
+      background: rgba(74,158,255,0.1);
+    }
+
+    /* ─── TOC ─── */
+    .toc {
+      max-width: 700px;
+      margin: 60px auto 40px;
+      padding: 0 20px;
+    }
+    .toc h3 {
+      font-family: var(--sans);
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .toc-item {
+      display: flex; align-items: center; gap: 16px;
+      padding: 14px 18px;
+      color: var(--text-primary);
+      text-decoration: none;
+      border-left: 2px solid var(--chapter-border);
+      transition: all 0.25s;
+      font-family: var(--sans);
+      font-size: 0.95rem;
+    }
+    .toc-item:hover {
+      border-color: var(--accent);
+      background: rgba(74,158,255,0.04);
+      padding-left: 24px;
+    }
+    .toc-num {
+      font-size: 0.75rem;
+      color: var(--accent-dim);
+      font-weight: 700;
+      min-width: 20px;
+    }
+
+    /* ─── Characters ─── */
+    .characters {
+      max-width: 700px;
+      margin: 40px auto 60px;
+      padding: 0 20px;
+    }
+    .characters h3 {
+      font-family: var(--sans);
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+    }
+    .char-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+    }
+    .char-card {
+      background: var(--bg-card);
+      border: 1px solid var(--chapter-border);
+      border-radius: 8px;
+      padding: 18px;
+    }
+    .char-name {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+    .char-meta {
+      font-family: var(--sans);
+      font-size: 0.75rem;
+      color: var(--accent);
+      margin-bottom: 8px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .char-meta span {
+      background: rgba(74,158,255,0.1);
+      padding: 1px 8px;
+      border-radius: 4px;
+    }
+    .char-appearance {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin-bottom: 6px;
+      border-left: 2px solid var(--chapter-border);
+      padding-left: 10px;
+    }
+    .char-desc {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ─── Divider ─── */
+    .section-divider {
+      width: 40px; height: 1px;
+      background: var(--chapter-border);
+      margin: 0 auto;
+    }
+
+    /* ─── Chapter ─── */
+    .chapter {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 80px 20px;
+      border-top: 1px solid var(--chapter-border);
+    }
+    .chapter-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .chapter-number {
+      font-family: var(--sans);
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      color: var(--accent-dim);
+      display: block;
+      margin-bottom: 8px;
+    }
+    .chapter-title {
+      font-family: var(--serif);
+      font-size: clamp(1.3rem, 3vw, 1.8rem);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+    .chapter-image {
+      margin: 0 -20px 40px;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid var(--chapter-border);
+    }
+    .chapter-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+      opacity: 0.92;
+    }
+    .chapter-body p {
+      margin-bottom: 1.2em;
+      text-indent: 1em;
+      text-align: justify;
+    }
+    .chapter-body p:empty {
+      display: none;
+    }
+
+    /* ─── Footer ─── */
+    .footer {
+      text-align: center;
+      padding: 60px 20px;
+      font-family: var(--sans);
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      border-top: 1px solid var(--chapter-border);
+    }
+
+    /* ─── Reading mode toggle ─── */
+    .mode-toggle {
+      position: fixed; bottom: 20px; right: 20px; z-index: 200;
+      background: var(--bg-card);
+      border: 1px solid var(--chapter-border);
+      color: var(--text-secondary);
+      font-family: var(--sans);
+      font-size: 0.75rem;
+      padding: 8px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .mode-toggle:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+
+    /* --- TTS Read Aloud --- */
+    .tts-fab {
+      position: fixed; bottom: 80px; right: 20px; z-index: 200;
+      width: 48px; height: 48px; border-radius: 50%;
+      background: var(--accent); color: #fff; border: none;
+      font-size: 22px; cursor: pointer;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+      transition: all 0.3s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .tts-fab:hover { transform: scale(1.1); }
+    .tts-fab.speaking { background: #e74c3c; animation: tts-pulse 1.5s infinite; }
+    @keyframes tts-pulse {
+      0%,100% { box-shadow: 0 4px 16px rgba(231,76,60,0.4); }
+      50% { box-shadow: 0 4px 24px rgba(231,76,60,0.7); }
+    }
+    .tts-bar {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+      background: rgba(20,20,30,0.95); backdrop-filter: blur(12px);
+      border-top: 1px solid var(--chapter-border);
+      padding: 10px 16px; display: none;
+      align-items: center; gap: 10px;
+      font-family: var(--sans); font-size: 0.85rem;
+    }
+    .tts-bar.active { display: flex; flex-wrap: wrap; }
+    .tts-bar button {
+      background: none; border: 1px solid var(--text-secondary);
+      color: var(--text-primary); border-radius: 6px;
+      padding: 6px 12px; cursor: pointer; font-size: 0.8rem;
+      white-space: nowrap; transition: all 0.2s;
+    }
+    .tts-bar button:hover { border-color: var(--accent); color: var(--accent); }
+    .tts-bar .tts-info {
+      flex: 1; color: var(--text-secondary);
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      min-width: 80px;
+    }
+    .tts-bar .tts-speed {
+      display: flex; align-items: center; gap: 4px;
+      color: var(--text-secondary); font-size: 0.75rem;
+    }
+    .tts-bar .tts-speed input { width: 60px; accent-color: var(--accent); }
+    body.light .tts-bar {
+      background: rgba(245,245,240,0.95); border-top-color: #ddd;
+    }
+    body.light .tts-bar button { border-color: #999; color: #333; }
+    body.light .tts-bar .tts-info { color: #666; }
+
+    /* ─── Light mode ─── */
+    body.light {
+      --bg-primary: #f5f0e8;
+      --bg-secondary: #ebe5d9;
+      --bg-card: #fff;
+      --text-primary: #2a2a2a;
+      --text-secondary: #6a6a6a;
+      --chapter-border: #d5cfc3;
+      --accent: #2563eb;
+      --accent-dim: #6b9eff;
+      --gold: #8a6d2b;
+    }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 600px) {
+      body { font-size: 15px; }
+      .chapter { padding: 50px 16px; }
+    }
+
+    /* ─── Scroll progress ─── */
+    .scroll-progress {
+      position: fixed; top: 0; left: 0; z-index: 200;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--gold));
+      width: 0%;
+      transition: width 0.1s;
+    }
+  </style>
+</head>
+<body>
+  <div class="scroll-progress" id="progress"></div>
+
+  <header class="hero">
+    <h1 class="hero-title">エジソンがいなければ：電気のない世界</h1>
+    <p class="hero-sub">GENERATED WITH LOCAL AI — OLLAMA + STABLE DIFFUSION</p>
+    <div class="hero-line"></div>
+  </header>
+
+  <nav class="nav-bar">
+    <span class="nav-title">目次</span>
+    <a href="#chapter-1">第1章</a><a href="#chapter-2">第2章</a><a href="#chapter-3">第3章</a><a href="#chapter-4">第4章</a><a href="#chapter-5">第5章</a><a href="#chapter-6">第6章</a><a href="#chapter-7">第7章</a><a href="#chapter-8">第8章</a><a href="#chapter-9">第9章</a><a href="#chapter-10">第10章</a>
+  </nav>
+
+  <div class="toc">
+    <h3>— 目次 —</h3>
+        <a href="#chapter-1" class="toc-item"><span class="toc-num">1</span><span class="toc-label">技術の衰退</span></a>
+        <a href="#chapter-2" class="toc-item"><span class="toc-num">2</span><span class="toc-label">情報の闇</span></a>
+        <a href="#chapter-3" class="toc-item"><span class="toc-num">3</span><span class="toc-label">夜の恐怖</span></a>
+        <a href="#chapter-4" class="toc-item"><span class="toc-num">4</span><span class="toc-label">情報の断絶</span></a>
+        <a href="#chapter-5" class="toc-item"><span class="toc-num">5</span><span class="toc-label">新たな職業の誕生</span></a>
+        <a href="#chapter-6" class="toc-item"><span class="toc-num">6</span><span class="toc-label">古代への回帰</span></a>
+        <a href="#chapter-7" class="toc-item"><span class="toc-num">7</span><span class="toc-label">魔法と迷信の時代</span></a>
+        <a href="#chapter-8" class="toc-item"><span class="toc-num">8</span><span class="toc-label">新たな科学の誕生</span></a>
+        <a href="#chapter-9" class="toc-item"><span class="toc-num">9</span><span class="toc-label">教育の変革</span></a>
+        <a href="#chapter-10" class="toc-item"><span class="toc-num">10</span><span class="toc-label">未来への希望</span></a>
+  </div>
+
+  <div class="characters">
+    <h3>— 登場人物 —</h3>
+    <div class="char-grid">
+      <div class="char-card">
+        <div class="char-name">リチャード・スミス</div>
+        <div class="char-meta"><span>主人公</span><span>28歳</span></div>
+        <div class="char-appearance">茶色い髪を長く伸ばし、金属製のメガネが印象的な科学者。顔には興奮から汗を掻いている。</div>
+        <div class="char-desc">好奇心旺盛で独創的だが、他人とのコミュニケーションに難がある</div>
+      </div>
+      <div class="char-card">
+        <div class="char-name">エリザベス・リー</div>
+        <div class="char-meta"><span>サブキャラ</span><span>25歳</span></div>
+        <div class="char-appearance">黒髪を肩まで伸ばし、常に革製のノートと鉛筆を持ち歩く実業家。落ち着いた表情からは想像もつかないほど情熱的だ。</div>
+        <div class="char-desc">論理的で冷静、しかし自身の信念に厳格</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <main>
+
+    <section class="chapter" id="chapter-1">
+      <div class="chapter-header">
+        <span class="chapter-number">第1章</span>
+        <h2 class="chapter-title">技術の衰退</h2>
+      </div>
+      
+      <div class="chapter-body">
+        <p>第1章　技術の衰退</p>
+
+        <p>雨粒が窓ガラスに静かに落ちる音。夜空には月も星もない、黒い布地のように広がっている。リチャードは薄暗さの中でも金属製メガネをかけた目で室内を見回す。彼の実験台は散らかった煤煙と灯り油の臭いに包まれていた。</p>
+
+        <p>「始めるか」</p>
+        <p>音もなく立ち上がり、革張りの椅子から重厚な本を取り出す。</p>
+        <p>ページを開く手が震える。「ここだ」と囁きながら指で文章を追う。リチャードは自身の発見が間違いないと確信していた。空気が止まった瞬間に、彼女の言葉が漏れた。</p>
+
+        <p>「また実験か」</p>
+        <p>エリザベスの声が冷たく響く。</p>
+        <p>しかし彼女に向き合うことはなく、ただ黙って本を手渡すだけだった。「ここを見ろ」というメッセージを込めて。埃と煤で汚れきったページは静寂を包み込む。</p>
+
+        <p>「でも電気なんて存在しないわよ」</p>
+        <p>彼女の声が再び聞こえる。</p>
+        <p>それでもリチャードは何も答えず、ただ揺るぎない信念に身を委ねた。「だが俺の目には見えた。手で触れた」と自己言い訳をするように自問自答。</p>
+
+        <p>灯り油を注いだランプから漏れ出す明かりは薄暗く、その光が天井と壁を行ったり来たりしている。</p>
+        <p>リチャードは机に向かい深呼吸する。「始めるよ」彼の口調には迷いや疑念がない。ただ決意だけが透けていた。</p>
+
+        <p>実験台の上に様々な器具を並べる音。灯り油ランプから漏れる臭いと金属やガラスの質感。</p>
+        <p>「ここだ」と呟くリチャードは自己満足な笑みを浮かべていた。「これが俺が見つけたもの」</p>
+
+        <p>夜更け、街は静まり返っていた。</p>
+
+        <p>彼の手元に小さな火種が生まれる。それが大きく広がり、一瞬にして全ての闇を照らす光になる。</p>
+        <p>しかしすぐに消えてしまった。再び無音と黒い布地のような空気が戻った。</p>
+
+        <p>「もう一度」</p>
+        <p>リチャードは息を整える。「次はうまくいく」</p>
+
+        <p>彼自身に言い聞かせるように呟き、再度実験を行う。</p>
+
+        <p>夜の深まりと共に雨粒が増し、窓ガラスは水で覆われた。室内から漏れ出る灯り油の香りと金属製メガネを払う音。</p>
+        <p>「なぜだ？」彼女に尋ねることはしなかった。「もう一度」</p>
+
+        <p>何度も繰り返されるその声と動作。</p>
+
+        <p>リチャードが自宅に戻ったとき、埃と煤煙の中に沈んだ夜は更けていた。手のひらには白い粉が付着し、メガネを払う指先からは油がにじみ出ていた。</p>
+        <p>彼は何も言わずにただ黙って室内を見回した。「まだ終わらない」</p>
+        <p>そんな風に感じていた。</p>
+
+        <p>月明かりもなく星もない夜空は広く、その下でリチャードの孤独な実験室と雨粒だけが存在していた。</p>
+      </div>
+    </section>
+    <section class="chapter" id="chapter-2">
+      <div class="chapter-header">
+        <span class="chapter-number">第2章</span>
+        <h2 class="chapter-title">情報の闇</h2>
+      </div>
+      
+      <div class="chapter-body">
+        <p>第２章　情報の闇</p>
+
+        <p>朝霧が街を包み、湿った地面に足音が吸い込まれる。リチャードとエリザベスが待ち合わせた公園では、鳥たちが枝から飛び立っては戻り、薄暗さの中で羽根の揺らぎだけが視界を動かす。</p>
+
+        <p>「伝令が来ます」とエリザベスが告げる。彼女の声は静かな霧に吸収されようとしていた。</p>
+        <p>リチャードは金属製メガネで遠くを見つめる。微かに光る青い空気、そこから来る風の冷たさ。</p>
+
+        <p>「準備は？」</p>
+        <p>「すべて整えました」彼女が確認する視線を向け返す。</p>
+
+        <p>鳥獣伝令が二人のもとに到着した。</p>
+        <p>それは小さな猿で、身に纏う封筒にはリチャードからの書簡があり、エリザベスへと届けるためのものだった。紙片は傷みやすく、手元から離れるたび焦りが込み上げる。</p>
+
+        <p>「これを持って行きます」と言って彼女は猿を抱きしめた。</p>
+        <p>その触れ合いすらも情報伝達の一環として機能する世界で、人間と動物との距離は微妙なバランスに保たれていた。エリザベスの指先から微かな体温が漏れ出していた。</p>
+
+        <p>「次回の会議」</p>
+        <p>彼女が口にする言葉を聞いてから少し時間が経った後。</p>
+        <p>「手紙は？」  </p>
+        <p>「もう準備しました」と猿からの返答に、二人とも頷く。この非効率的な方法でも、彼らには情報伝達への希望があった。</p>
+
+        <p>公園を去りながら、エリザベスの足元で草が揺れる音が聞こえてくる。</p>
+        <p>彼女は歩みを止めた。「君も疲れているだろう」と猿に語りかけた。その声は優しく、しかし決して柔らかさだけではなかった。</p>
+
+        <p>「我々には選択肢がない」</p>
+        <p>彼女の手から離れた瞬間、遠くの街が静かな音と共に目覚め始めていた。</p>
+        <p>光と影が織りなす世界の中で、リチャードは新たな実験を続ける決意を持ちつつも、その重みを感じていた。</p>
+
+        <p>霧は薄れていく。  </p>
+        <p>公園から見えるわずかに明るくなった空の色に、それぞれ別の道程へと向かう二人。</p>
+        <p>そして次なる会議への準備が始まる。</p>
+      </div>
+    </section>
+    <section class="chapter" id="chapter-3">
+      <div class="chapter-header">
+        <span class="chapter-number">第3章</span>
+        <h2 class="chapter-title">夜の恐怖</h2>
+      </div>
+      
+      <div class="chapter-body">
+        <p>第3章　夜の恐怖</p>
+
+        <p>月が雲に隠れ、街路樹さえも影を見せていない。風音と木々の葉擦りだけが闇の中にある唯一の存在感だ。冷たい土の匂いが鼻を突く。リチャードは息苦しさを感じながら歩みを止め、懐から錆びた金属製メガネを取り出す。薄暗さに目を慣らし、視界の中で僅かな光を探した。</p>
+
+        <p>「この街で火を使うのは危険すぎますね」とエリザベスが呟き、その声は少し震えていた。</p>
+        <p>「しかし他の方法がない」</p>
+
+        <p>「手作りのろうそくならどうでしょうか」</p>
+        <p>彼女は革製ノートを広げ、鉛筆で何か書き始める。紙面に擦れる音と墨汁の匂いが混じる。</p>
+
+        <p>街灯一つない路地裏へ降り立ち、リチャードたちは古い倉庫を見つけ出す。中に入ると廃棄物の中から蠟を発見し始めた。</p>
+        <p>「これを使います」</p>
+        <p>エリザベスはそれを拾って持ち帰り始めるが、重い荷物に苦しそうだ。</p>
+
+        <p>薄明かりの中で二人の姿が浮かび上がる。「ここに置きましょう」と彼女は壁際に蠟を並べた。それらが細長い筒型に入れられるとろうそくとなった。</p>
+        <p>「できました」</p>
+        <p>リチャードもまた、手製の芯で一つずつ火をつけ始める。</p>
+
+        <p>炎が夜闇を揺さぶる。「これなら少しは光りますね」とエリザベス。しかし風に弱い小さな灯りには不十分な照度だ。</p>
+        <p>「でもこれ以上ないでしょう」</p>
+
+        <p>二人とも静かな沈黙の中で立ち尽くす。暗闘の日々が続く中、薄明かりだけを頼みにする寂しさがあった。</p>
+
+        <p>翌日の朝までこの光だけで過ごすことになるだろうと彼らは感じていた。それらろうそく一つ一つから漏れる僅かな炎。それが二人に希望を与えていた。</p>
+        <p>「しかし夜には恐怖がありますね」</p>
+        <p>彼女が呟き、その声の奥底には何か深いものが潜んでいるようだった。</p>
+
+        <p>そして灯りを囲む四人の影だけが揺れ動き続ける。それ以外は無音である。静寂と闇に包まれた倉庫の中での一夜が始まったのであった。</p>
+      </div>
+    </section>
+    <section class="chapter" id="chapter-4">
+      <div class="chapter-header">
+        <span class="chapter-number">第4章</span>
+        <h2 class="chapter-title">情報の断絶</h2>
+      </div>
+      
+      <div class="chapter-body">
+        <p>第4章　情報の断絶</p>
+
+        <p>暗闇が押し寄せる夜、静けさと重厚な黒に包まれた街。月明かりがないため星々すら光を放つことがない無軌道な空。風は冷たくて乾いており、地面から上がる土埃が舌先で味わうような微細な粉塵の匂いがあった。</p>
+
+        <p>リチャード・スミスは紙とペンを持ち、狭くて薄暗さに満ちた部屋の一端に座っていた。ろうそくからは僅かな光しか出ておらず、そのわずかな明かりすら夜間には影を作り出すほどだった。彼の顔が微かに浮き彫りになり、眼鏡から覗く瞳は深淵のように黒々としていた。</p>
+
+        <p>「情報を得る手段がない」とリチャードは唇を薄く引き結ぶと呟いた。</p>
+        <p>エリザベス・リーもまた、手元の革製ノートを開き、鉛筆で文字を刻み続けている。彼女たちが住むこの都市では電話やラジオなど電力に依存した装置は存在しない。</p>
+
+        <p>「しかし手紙さえ届かない」とエリザベスは口角を持ち上げて笑った。「情報伝達手段の乏しさゆえ、世の中から隔絶されているような気分だ」</p>
+        <p>彼女が言葉を発すると同時に風音が窓ガラスに触れ、冷たい空気が部屋全体を侵食する。</p>
+
+        <p>リチャードは自分の頭痛を感じながらも、机上の手紙を開封し始めた。蠟で押した封筒からは白い紙片たちと灰色の塵が舞う様子を見せた。</p>
+        <p>「誰から来たものか？」</p>
+        <p>エリザベスが疑問を投げかける。</p>
+
+        <p>「友人からのメッセージらしい」とリチャードは小さく首肯する。「しかし彼からの手紙も既に半年以上届いていない」</p>
+        <p>それは驚きよりも、むしろ現実を受け入れるための言葉だった。情報伝達手段の乏しさゆえに人々が互いから孤立しきっている様子を示していた。</p>
+
+        <p>「消息は？」とエリザベスが尋ねた。</p>
+        <p>彼女のか細い声には懸念よりも、ただ事実受け容れるだけの感情しかなかった。「手紙を受け取るまで誰も知ることはない」</p>
+        <p>その言葉通り、遠くの人々から届いた情報はわずかながらに更新される機会を持っていた。</p>
+
+        <p>しかし夜が深まるにつれて、冷たさと闇が彼らを包み込む。ろうそくの炎は小さくなり、部屋の中ではただ静寂だけが支配する。</p>
+        <p>「この暗さの中で」とエリザベスが呟いた。「情報なんて手に入らない」</p>
+        <p>彼女たちの頭上には大きな雲がかぶさり、月光すら漏れない夜空。その闇は彼女の声を吸い込むようにして沈黙へと導く。</p>
+
+        <p>「それでも何か変化があれば」とリチャードが低く語る。「手紙を通じて伝えられる」</p>
+
+        <p>彼らの周囲には未だに多くの謎が横たわっている。しかし、情報伝達手段の乏しさはそれを解明するための可能性を奪うばかりだった。</p>
+
+        <p>その日から数週間、彼女たち二人はこの状況を受け入れながらも手紙を通じて遠くの人々からの消息を探り続けた。</p>
+        <p>それぞれが何を考えているのか。どのような人生を送っているのか。そうした情報の欠如により人々との距離感を感じさせられていた。</p>
+
+        <p>「しかし」とエリザベスはまた口を開いた。「夜には恐怖があるね」</p>
+        <p>彼女たち周辺では、僅かな光と闇に包まれた静寂がただ続くだけだった。</p>
+        <p>その言葉と共に聞こえるのは、微かだが窓ガラスを揺らす風音。</p>
+
+        <p>時間の流れは止まっていたわけではない。しかし夜間には人々の声も情報もないままに過ぎていくように感じられたのであった。</p>
+        <p>彼らを取り巻く闇の中で、僅かな光がその存在意義を探求しながらも静かに消えゆく様子を眺めていると、「それが全て」という虚無感すら覚えるほどであった。</p>
+      </div>
+    </section>
+    <section class="chapter" id="chapter-5">
+      <div class="chapter-header">
+        <span class="chapter-number">第5章</span>
+        <h2 class="chapter-title">新たな職業の誕生</h2>
+      </div>
+      
+      <div class="chapter-body">
+        <p>第5章　新たな職業の誕生</p>
+
+        <p>冷たい風が街路に吹き抜けていく。昼間とは違う、肌寒さと同時に夜明け前の静寂が広がる。星々は遠くから視線を送りつつも触れることはない。その中に微かだが絶えず聞こえてくる音がある。</p>
+
+        <p>「水槽の魚が息をする音」</p>
+
+        <p>それは今朝初めて耳にした、新しい職業について語られた声だった。</p>
+        <p>薄暗い食堂の中で、幾人もの人々は静寂を破りながら口々に新たな役割への希望と懸念を述べている。窓際には一筋だけ日が出ようとしている光が差し込んでくる。</p>
+
+        <p>「あの人たちは夜間でも作業できるんだ」</p>
+
+        <p>誰かの声が耳に入ってきた。</p>
+        <p>人々はその言葉で会話を再開する。</p>
+
+        <p>「それが水槽職人というやつか？」</p>
+
+        <p>「魚を飼うのかい、野菜の水耕栽培だってさ。新しい食料調達手段らしいよ」</p>
+
+        <p>「そんなものができるのか？　暗闇の中で仕事ができるってのは大変なことだろ」</p>
+        <p>聞き手はそう言うが、問い返す声がすぐに出る。</p>
+
+        <p>「でもそれこそが新たな機会なんだよ。電気がなくても光熱費を気にせず仕事を続けることができるんだから」</p>
+
+        <p>リチャード・スミスの視線はその人たちを見つめながらも、遠くに漂う何かを探していた。</p>
+        <p>彼のメガネが光を取り込む度に微細な反射が出る。</p>
+
+        <p>「彼らの中には元教師や鉄工師など様々な職業の人々がいるんだ。それぞれが持っている技術と経験を活かして新しい役割を見つけている」</p>
+
+        <p>エリザベス・リーはその言葉を受けつつ、思考の向こう側に視線を送りながら頷く。</p>
+        <p>「でもそれは一見無理な話にも思えるね」</p>
+        <p>彼女が口を開いた。</p>
+
+        <p>「暗闇の中で作物を見つめ続けるなんて、人間には不可能じゃないか」</p>
+
+        <p>しかし会議はそこで終わらず、新たな疑問も生まれた。人々の表情からその思いを読み取るリチャード。</p>
+        <p>彼自身、自分たちに必要なものは何かと問い続けているが、それは明確な答えを得られない問題でもあった。</p>
+
+        <p>「どうやって作物を見つめ続けるんだい？」</p>
+
+        <p>誰かがそう言う言葉は静寂の中で響き渡り、人々の思考を刺激する。その中で一人ひとりがそれぞれの想像力を働かせた。</p>
+        <p>「目覚まし時計を使えばいいだろ」</p>
+        <p>別の声が言った。</p>
+
+        <p>「待てよ。それは電気がなかったら使えないじゃん」</p>
+
+        <p>会話は混乱に走る。</p>
+        <p>リチャードとエリザベスもまたその渦の中にいる。</p>
+
+        <p>「でも、時間の感覚を持つことが必要なんだって」</p>
+
+        <p>彼らが互いを見つめ合う間には一瞬だけ時間が止まったかのように思えた。視線の中で何かを読み取った二人はすぐに再び話し始めることになる。</p>
+        <p>「確かにそれはそうだ」とリチャードが言った。「自然と向き合い、光の色や音に耳を傾け、季節を感じることが大切なんだよ」</p>
+
+        <p>エリザベスもまた彼の言葉を受け止めた。その表情には新たなる知識に対する尊敬があった。</p>
+
+        <p>「そして新たな役割を見つけた人々は」</p>
+        <p>声が再び会議室中に響き渡り、「今度こそ私たちの生活に変化を起こすだろう」という希望と共に。</p>
+
+        <p>遠くで微かに聞こえる鐘の音。それは夜明けと同時に働こうとする職人たちへの呼びかけでもあった。</p>
+        <p>彼らの中には元教師や鉄工師、農民もいたがそれぞれ新たな役割を見つけつつある。その人々は新しい生き方を見つけるために働き始める。</p>
+
+        <p>月光に照らされた水槽の魚たちは息を吐きながら微かだが確かな生命感を与える。</p>
+        <p>それは彼らにとって希望であり挑戦でもあった。</p>
+
+        <p>「夜間作業なんて、電気がなければ無理じゃない？」</p>
+
+        <p>声が再び静寂の中で響く。しかし誰もそれを否定はしない。ただ人々の表情から見えてくるのは互いを信じる力と、新たな時代への期待だけだった。</p>
+        <p>その光景を見つめながらリチャード・スミスは考えた。</p>
+
+        <p>「これは新しい始まりなんだ」</p>
+        <p>彼がそう呟いた瞬間、会議室には再び静寂が広がった。</p>
+      </div>
+    </section>
+    <section class="chapter" id="chapter-6">
+      <div class="chapter-header">
+        <span class="chapter-number">第6章</span>
+        <h2 class="chapter-title">古代への回帰</h2>
+      </div>
+      
+      <div class="chapter-body">
+        <p>第6章　古代への回帰</p>
+
+        <p>朝露が日光に揺らめき、湿った田んぼの匂いが風に乗ってくる。太陽が昇りかける空には、厚みのある雲が薄紫色で広がる。手押し車は小さな石畳を転がし、その音だけが朝の静けさを揺らす。</p>
+
+        <p>リチャード・スミスとエリザベス・リーは、農具店に並んだ様々な道具を見つめながら立っていた。「水槽職人」への道を探していた彼らにとって、この一見古びた工具群には新たな希望が隠されていた。金属製の手押し車を引きずり、二人は近くの畑へと向かった。</p>
+
+        <p>麦畑の草木の中、彼女は古い鋤を持ち上げる。「これを使い方は？」リチャードに尋ねるエリザベスの声が静かな朝の空気に響く。金属製のメガネを鼻先まで押し戻し、リチャrdardは手元を見つめながら説明する。</p>
+
+        <p>「麦の苗間を耕すためですな」</p>
+        <p>彼女は頷き、鋤を地面に突き刺した。力が抜けると土が小石と共に掻き分けられる。</p>
+        <p>「なるほど」</p>
+
+        <p>二人で黙々と作業を続ける中、彼らの手元には草花や根っこが絡みつきながらも、畝という畷を作っていく。</p>
+
+        <p>昼下がりになると、赤褐色の肌に日焼けした農民たちが田んぼの端から現れた。「水槽職人」になる前に、彼たちは長い時間をかけて自然と調和する仕事について学んだ。エリザベスは彼らと一緒に畑を耕し、新しい仲間達との会話を通じて、より深く農作業に没頭した。</p>
+
+        <p>「我々が行っているのはただの模倣ではない」</p>
+        <p>ある日の晩餐中、リチャードが言った。「これは文明への道筋を見直す機会でもあろう。」</p>
+
+        <p>エリザベスは黙って頷き、彼の言葉を深く受け止めた。</p>
+        <p>「電気が存在しない世界で何を選択するか」</p>
+        <p>彼女は低い声で続けた、「その選択自体が新たな進歩となるわね」</p>
+
+        <p>彼らは月明かりのもと、新しい道具を使って作業を続ける。星の下での静寂の中で、農具に刻まれる風合いや土壌との密着感を感じながら、リチャードたち自身も古い時代へと戻っていくような気分になる。</p>
+
+        <p>夜が深くなるにつれて、光熱費がないことで街全体が黒々とした闇に包まれていく。しかし彼らの畑では農具から放たれる月明かりが静かに揺らめき、その先にある新しい生活への道しるべとなる。</p>
+        <p>月夜が遠くで鳴いている。</p>
+
+        <p>鳥のさえずりと風の音だけが聞こえる闇の中、二人は作業を終えた農具を手押し車に乗せて畑から離れた。街灯もない中進む石畳では影も長くなり、彼らの姿が揺らぐように見える。</p>
+
+        <p>「明日またここで会おう」</p>
+        <p>エリザベスは静かに言った。</p>
+        <p>「よろしいです」</p>
+
+        <p>二人は無言で互いを見つめ合いながら別れた。その瞬間だけ空気が凍りつき、その後再び動き出す。夜の闇が彼らを包み込みながら、また新たなる一日が始まる準備ができているように感じられた。</p>
+
+        <p>月光に照らされた古い手押し車は静かに転がる。</p>
+        <p>そしてそれが彼女の背後で遠ざかる音だけが聞こえた。</p>
+        <p>空を見上げると満天の星があった。</p>
+      </div>
+    </section>
+    <section class="chapter" id="chapter-7">
+      <div class="chapter-header">
+        <span class="chapter-number">第7章</span>
+        <h2 class="chapter-title">魔法と迷信の時代</h2>
+      </div>
+      
+      <div class="chapter-body">
+        <p>第7章　魔法と迷信の時代</p>
+
+        <p>星が消えゆく夜空。月光が木々にかすかな光を落としていた。風がささやいて、枯れ葉の音色は静寂の中にもうるさいほど響き渡っていた。</p>
+        <p>リチャードとエリザベスは小さな村で一夜を過ごしていた。「科学」と「技術」が存在しない世界では、人々は自然現象に理由を見出せず、代わりに様々な迷信や魔法的な信仰を持ち始めていた。その一方で彼ら自身も新たな生き方を探し求め、従来の秩序からは距離をおいていた。</p>
+
+        <p>村人たちは夜遅くまで集まり続け、互いに語り継ぐ伝統と秘密について話し合う。暖炉の炎が静かに揺れながら燃えさかる中で、リチャードは自身の好奇心を封じ込めるため息と共に手元を見つめていた。「科学」から遠ざかった世界で彼らはどうやって日々の問題に対処しているのか興味があった。</p>
+
+        <p>一方エリザベスは村人たちが持っている古い儀式や呪文について調査し、その根拠を理解しようとしていた。彼女にとって、「論理」と「秩序」が最も重要であることは変わらない。「迷信」に頼る人々の心には何か違うものを感じていた。</p>
+        <p>夜更け、一人の老婆がリチャードとエリザベスのもとにやってきた。</p>
+
+        <p>「病気を治しますよ」</p>
+
+        <p>声は柔らかくも懐疑的だった。顔つきからは老練な知識家の雰囲気が漂っていた。</p>
+        <p>「お二人様に何か困ったことがありました？」</p>
+        <p>老婆の言葉につられて、リチャードとエリザベスは互いに戸惑うような視線を交わした。</p>
+
+        <p>「私たちには特に何も…」リチャードが口火をつけた。「しかし、どういった方法で？」</p>
+
+        <p>「魔法ですよ。」老人が微かに笑って答えた。</p>
+        <p>その表情から伝わる深い信頼感と謎めいた雰囲気は確かに不思議だった。</p>
+
+        <p>老婆の案内で二人は村の外れにある小屋へと向かった。そこでは既に他の村民たちも集まっており、皆が静かで緊張した表情をしていた。</p>
+        <p>薄暗い中で老婆は小さな水桶から何らかの液体を取り出し、「病気」と「厄除け」について囁きながら呪文のような言葉を唱え始めた。</p>
+
+        <p>液の中には不思議な光り輝く粒が浮遊しており、それ自体が一種の魔法とでも言うべき存在感があった。その情景はまるで一部始終を見守るような月明かりの中で揺れ動いていた。</p>
+        <p>呪文と共に老婆は液体をそれぞれの村人に当てて行き、彼女の手元から放たれる光り輝く粒々が人々の肌に触れると静かな音色とともに消えていく。その瞬間だけでも身体全体が何か別のものになるような錯覚があった。</p>
+
+        <p>リチャードとエリザベスも老婆から液体をかけられ、未知なる魔法の一端を感じていた。</p>
+        <p>「これで病気は治りますよ」老人の声と共に再び微笑んだ。「心配ご無用」</p>
+
+        <p>それだけ言って、彼女は静かに小屋を出て行った。月光の中でのその姿が幻想的な印象を残し、二人を見送るように天高く伸びる木々が風に乗って揺れる。</p>
+
+        <p>「信じてるのか？」</p>
+        <p>薄暗さの中でエリザベスの声が聞こえた。</p>
+        <p>彼女は夜空に浮かぶ星の一つひとつに手を伸ばすように視線を向けていた。「信じてない」</p>
+
+        <p>だが、その答えの中には何か他の感情も含まれていた。それは迷信や魔法に対する疑念だけではなかった。</p>
+
+        <p>風が静まり返り、月光が木々と地面を包み込んでいく。リチャードはエリザベスに近づき、彼女の肩を軽く叩いた。「信じるのではなくて…」</p>
+
+        <p>そこで言葉を切った。</p>
+        <p>その瞬間から再び二人は語らぬまま静かな夜空を見上げていた。</p>
+
+        <p>遠くで鳩が声を限りに鳴いている。それは魔法の呪文と共に、この時代と彼ら自身に対する暗示だったかもしれない。</p>
+      </div>
+    </section>
+    <section class="chapter" id="chapter-8">
+      <div class="chapter-header">
+        <span class="chapter-number">第8章</span>
+        <h2 class="chapter-title">新たな科学の誕生</h2>
+      </div>
+      
+      <div class="chapter-body">
+        <p>第8章　新たな科学の誕生</p>
+
+        <p>薄暗い実験室。蠟燭が揺れ、仄かな炎に揺らめきながら静寂な空間を作り出す。冬の夜は寒く、壁際には霧のような結露がある。リチャードとエリザベスはこの部屋で新しい発明を考えていた。</p>
+
+        <p>蠟燭を手にするエリザベスが囁いた。「ここら辺で始める？」</p>
+
+        <p>「そうだね」リチャードも呑気にうなずくだけだ。二人の前に並んだ幾つかの器具は、ガラス製の瓶や細い管、そして素早く動く秒針を持つ時計などだった。</p>
+
+        <p>室内には彼女たちが呼吸する音と、蠟燭から漏れるわずかな滴る音しか聞こえない。エリザベスが革製ノートに鉛筆を走らせた。「科学の進歩は遅いものだ」と書き加える。</p>
+
+        <p>「でも君の信念があるんだ」リチャードは彼女の背中を見つめ、そう話す。</p>
+
+        <p>「僕たちの手元にある道具には限界がありますが。人間自身の力を借りることで未知を解き明かせる可能性もあるでしょう」</p>
+
+        <p>エリザベスは頷いた。「人体エネルギーを利用しようと思ったんです」</p>
+        <p>「つまり？」</p>
+        <p>彼女は静かな笑みを浮かべた。「その力が科学的に明らかにされれば、我々が夢見る世界の一部になるかもしれませんよ」</p>
+
+        <p>二人は実験のために準備していた器具を取り出した。リチャードは一本の細い管を持って蠟燭近くで手探りするように動く。彼女たちの身体から取り出すエネルギーを感知しようと試みる。</p>
+
+        <p>エリザベスが皮膚に触れ、静かに「感じる？」と言った。</p>
+        <p>「ああ」とだけ応えるリチャードだが顔には興奮した表情がある。</p>
+
+        <p>蠟燭は暗闇の中で揺らめく。実験室の壁からは冷たい息が漏れ出し、その中で二人は小さな手探りを続ける。</p>
+
+        <p>時間はゆっくりと流れていき、それぞれの思考や感情も刻一刻変化していく。「これが新しい科学だ」リチャードは静かに呟いた。</p>
+        <p>彼女たちは未知なる力を解き明かすための実験が進む。蠟燭の炎は揺らめくと同時に微かな光を放つ。それは二人にとって新たな始まりとなる。</p>
+
+        <p>その頃、遠くには夜霧に包まれる都市が広がっている。</p>
+        <p>エリザベスは細い管から流れ出す少量の液体を見つめる。「私たちはまだ何も知らない」と呟いた。</p>
+
+        <p>蠟燭の炎は揺らめきながら静寂な部屋を照らす。手探りで未知なる力を解明しようとする二人の姿が、そこにある。</p>
+        <p>リチャードとエリザベスは、科学的な視点から迷信や魔法に挑戦し続けた。</p>
+
+        <p>蠟燭からの微かな光は揺れながら消えゆく。彼女たちの実験が始まったばかりだった。</p>
+        <p>「明日も頑張ろうね」</p>
+        <p>静かにそう告げたエリザベスの声が、部屋いっぱい響き渡る。</p>
+        <p>その後方にはまだ始まらない可能性と希望があった。</p>
+
+        <p>蠟燭は最後の一滴を燃やし尽くす。彼女たちにとってそれは新しい時代のはじまりだった。</p>
+        <p>夜明けと共に再び動き出す街を見つめながら二人の未来が静かに広がっていく。</p>
+      </div>
+    </section>
+    <section class="chapter" id="chapter-9">
+      <div class="chapter-header">
+        <span class="chapter-number">第9章</span>
+        <h2 class="chapter-title">教育の変革</h2>
+      </div>
+      
+      <div class="chapter-body">
+        <p>第9章　教育の変革</p>
+
+        <p>雪が降り続いていた。窓ガラス一面に白い模様が広がる校舎の中で、蠟燭から放たれる揺らぐ光が学びの雰囲気を醸成する教室は静まり返っていた。紙吹雪のように舞う細かな氷結した水滴。鼻先に寒い空気が突き刺さる。</p>
+
+        <p>リチャードとエリザベスは冬学期初日の朝、校舎裏の古い図書館で授業を担当する教師らと共に集まっていた。</p>
+        <p>「新たな学びの方法について話し合いたいのです。」</p>
+        <p>リチャードが言葉を選ぶように口を開く。</p>
+
+        <p>青白い顔色をして頷く隣人の中には、年老いた女性も混ざっていた。「歴史を教える教師だ。」</p>
+
+        <p>彼女は革製の教科書から一冊を取り出し、座卓に載せた。</p>
+        <p>「私の授業では古代語を教えています。」</p>
+        <p>エリザベスが驚きの表情でその手元を見つめる。</p>
+
+        <p>蠟燭の灯りのもと、学びの一歩前へ進むための新たな試みが始まった。薄暗い教室からは時折雨粒と共に落ち葉が入ってきては、床に静かに音を立てた。</p>
+        <p>紙切れのような古文書から文字を解読する教師たち。</p>
+
+        <p>「この言語には意味があるのですよ。」</p>
+        <p>教科書を開いた歴史の女教師が囁くように言った。「我々の時代を超えた知識を持つ人々と、彼らの思考パターンに触れることで学びは深まるのです。」</p>
+
+        <p>しかし冷たさを感じる静寂の中、リチャードは眉をひそめた。</p>
+        <p>「私たちにはその解読能力がないんだよ」</p>
+        <p>エリザベスが教師を見つめると、彼女もまた黙り込んだ。</p>
+
+        <p>図書館の本棚から古い雑誌を取り出した一人の男。ページを開く音と紙のざらつき。「この時代は情報不足だ」と言葉を紡ぐ。</p>
+        <p>「しかし新しい学び方を見つけ出すことはできる」</p>
+        <p>リチャードが微かに息遣いしながら、その声色で語りかける。</p>
+
+        <p>蠟燭から漏れる光が古い図書館の床一面に広がる影を作り出していた。空は薄暗くなり、雪雲の下では風が細かな雨粒を運びながら校庭へと向かう。</p>
+        <p>「私たちが解読すべきものはただ言葉だけではない」</p>
+        <p>リチャードは深呼吸して続けた。「物語や伝承もまた学ぶべき重要な情報源です。」</p>
+
+        <p>古い雑誌のページから、手描きされた絵文字のような奇妙な記号を指差す者たち。</p>
+
+        <p>「そうですね」とエリザベスが頷いた。「私たち自身の時代を超えた視点を得ることで新しい解決策を見つけることができるのですね」</p>
+        <p>彼女は静かな教室内に響く自分の声に耳を傾けた。雨粒が窓ガラスを打つ音。</p>
+
+        <p>蠟燭から漏れる光と共に、歴史の教師達とリチャード・エリザベスとの新しい学びの一歩前へ進む会話は深夜まで続いた。</p>
+        <p>風雪の中、月明かりに照らされた古い校舎。静寂の中で揺れ動く蠟燭の炎が影を引き伸ばした。</p>
+
+        <p>遠くで夜警の鐘が鳴り響き、学びの一歩前へ進む新たな試みは始まったばかりだった。</p>
+      </div>
+    </section>
+    <section class="chapter" id="chapter-10">
+      <div class="chapter-header">
+        <span class="chapter-number">第10章</span>
+        <h2 class="chapter-title">未来への希望</h2>
+      </div>
+      
+      <div class="chapter-body">
+        <p>第10章　未来への希望</p>
+
+        <p>午後の陽光が細い隙間から差し込む古い会議室。窓ガラスに浮かぶ埃の粒が、太陽からの明かりを微弱な星々のように散乱させる。温かな春風は室内へと入り込み、紙製品や革具がわずかなる沙汰音を立てて揺れる。</p>
+
+        <p>リチャード・スミスは金属製メガネを指先で調整し、目頭の汗滴を拭った。「皆様、お集まりいただきありがとうございます。」彼の声は静かな期待と緊張に満ちている。周囲にはエリザベスをはじめとする地元の教師たちが控えめな表情で座り込んでいる。</p>
+
+        <p>「今日はここに来ていただく理由は一つだけです。新しい発明、つまり電力を使わない新たな情報伝達機器についてお話ししたいと思います。」リチャードの言葉は間髪入れずに続けていく。「それは、この空間を越えられることで知られる装置であり、何より我々がこれまで以上に遠くへ情報を届けるための手段となるでしょう。」</p>
+
+        <p>彼女たちは互いを見合いながらうなずき合う。その表情からしてリチャードは新鮮な驚愕と期待を感じ取る。</p>
+
+        <p>「しかし」と彼は続け、「この装置を動作させるには、ある特別な燃料が必要です。それは我々がこれまでの生活で無視してきたものではなく、むしろ日頃使用している燃料とも言えますね。」</p>
+
+        <p>エリザベス・リーもまたペンを持つ手元を見せながら言った。「具体的に何をご提案されているのでしょうか？」彼女の声は冷静だが、その眼差しだけは燃えるように熱い。</p>
+
+        <p>「それが、風です」とリチャードが答えた時、「静かな拍手」を含む薄気味悪い沈黙が会議室の空気に広がった。冬枯れした木々から微かに聞こえてくる鳥たちのさえずりと、遠くで響き渡る馬車の蹄鉄音だけ。</p>
+
+        <p>彼は深呼吸をして装置を開示する。「これが我々の新たな情報伝達機器です」リチャードが部屋を横切ると同時に静かな風切り音とともに空気が揺らぎ始める。それは、まるで時間自体がその瞬間のために動き出しているかのように。</p>
+
+        <p>会議室は再び沈黙に包まれる。「しかし」とエリザベスが小声だが明瞭な口調で発言し、「風を動力源とする装置が機能するとは。これは、ただの夢ではないのですね」彼女の表情からは以前よりも強い期待と熱意を感じ取れる。</p>
+
+        <p>「もちろんです」と答える。「我々はそれを現実へと変換しました」それ以上の説明も不要であるように見えたため、リチャードは静かに微笑んだ。この装置が未来の進歩を促す可能性について彼女たちと語り合うことに全ての力を傾けようとした。</p>
+
+        <p>「しかし」とまたエリザベス。「これは大変革でありましょうから」彼女の声には以前よりも確信があった。「我々、そして生徒たちはその新たな道程に乗り込む準備ができているのでしょうか？」</p>
+
+        <p>静かな間を経て、「それは確かに重要な問いです」とリチャードは答えた。</p>
+
+        <p>「しかし同時に、この装置が人々の生活を変え得る可能性についても忘れてはなりません。」彼女の瞳には驚くほど深い確信と覚悟があった。「今こそ我々はその力を引き出し始めようとしています」</p>
+
+        <p>風が窓ガラスに当たりながら揺れる木々を静かに撫でていく音と共に、リチャードは深呼吸し、「ではこれから」と前置きして装置の操作を開始する。彼の指先は神経質に動く。</p>
+
+        <p>「そしてこれが未来への希望です」彼がそう告げると同時に機器内部から微かな光が漏れ出し始め、それとともに音楽のような優雅な旋律が始まる。「風力発電装置による情報伝達」という言葉と共に新しい時代の幕開けを予感させる。</p>
+
+        <p>その瞬間、周囲は再び静寂に包まれる。ただ微かな光と旋律が室内の空間を満たすだけだった。それはまさに未来への希望そのものであり、彼女たち全員にとって新たな道程が始まったことを告げる合図となった。</p>
+
+        <p>風と共に揺れる木々の葉音は遠く聞こえる。「これは我々の新しい始まりです」とリチャードが静かに呟いた。それからまた会議室の中で沈黙が広がる。その間には新たな希望と可能性、そして恐れと挑戦があふれていた。</p>
+
+        <p>微かな光と共に彼女たちは目を伏せながら静寂の中を行き交う。「未来への道は遠く長い」とリチャードは最後にそう言った。</p>
+
+        <p>空気はやがて動き出し、新しい風景へと変わる。春の日差しも暖かさを増したように思えた。</p>
+
+        <p>沈黙の中で再び鳥たちのさえずりだけが聞こえる。それは遠くからではあるものの希望の歌だった。</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>エジソンがいなければ：電気のない世界</p>
+    <p>Generated locally with Ollama + Stable Diffusion</p>
+  </footer>
+
+
+  <button class="tts-fab" id="ttsFab" onclick="ttsToggle()" title="Read aloud">
+    <span id="ttsFabIcon">&#x1f50a;</span>
+  </button>
+  <div class="tts-bar" id="ttsBar">
+    <button onclick="ttsPause()" id="ttsPauseBtn">&#x23f8;</button>
+    <button onclick="ttsStop()">&#x23f9;</button>
+    <button onclick="ttsPrev()">&#x23ee;</button>
+    <button onclick="ttsNext()">&#x23ed;</button>
+    <span class="tts-info" id="ttsInfo">Ready</span>
+    <span class="tts-speed">
+      <input type="range" id="ttsSpeed" min="0.5" max="2.0" step="0.1"
+             value="1.0" onchange="ttsSetSpeed(this.value)" />
+      <span id="ttsSpeedVal">1.0x</span>
+    </span>
+  </div>
+
+  <button class="mode-toggle" onclick="toggleMode()">🌗 表示切替</button>
+
+  <script>
+    // Reading mode
+    function toggleMode() {
+      document.body.classList.toggle('light');
+      localStorage.setItem('mode', document.body.classList.contains('light') ? 'light' : 'dark');
+    }
+    if (localStorage.getItem('mode') === 'light') document.body.classList.add('light');
+
+    // Scroll progress
+    window.addEventListener('scroll', () => {
+      const h = document.documentElement;
+      const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+      document.getElementById('progress').style.width = pct + '%';
+    });
+
+    // === TTS (Web Speech API) ===
+    const synth = window.speechSynthesis;
+    let ttsChs = [], ttsI = 0, ttsRate = 1.0, ttsOn = false, ttsPd = false;
+
+    document.querySelectorAll('.chapter').forEach((sec, i) => {
+      const b = sec.querySelector('.chapter-body');
+      const t = sec.querySelector('.chapter-title');
+      if (b) ttsChs.push({
+        title: t ? t.textContent : ('Ch.' + (i+1)),
+        text: b.textContent.trim(), el: sec
+      });
+    });
+
+    function ttsToggle() {
+      if (!synth) { alert('Speech not supported'); return; }
+      if (ttsOn) { ttsStop(); return; }
+      const sy = window.scrollY + window.innerHeight / 3;
+      let cl = 0;
+      ttsChs.forEach((c, i) => { if (c.el.offsetTop <= sy) cl = i; });
+      ttsI = cl; ttsOn = true; ttsPd = false;
+      document.getElementById('ttsFab').classList.add('speaking');
+      document.getElementById('ttsFabIcon').innerHTML = '&#x23f9;';
+      document.getElementById('ttsBar').classList.add('active');
+      _ttsRead();
+    }
+
+    function _ttsRead() {
+      if (ttsI >= ttsChs.length) { ttsStop(); return; }
+      synth.cancel();
+      const ch = ttsChs[ttsI];
+      document.getElementById('ttsInfo').textContent = ch.title;
+      ch.el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      // Split by Japanese sentence endings for reliable playback
+      const sents = ch.text.match(/[^。！？
+]+[。！？]?/g) || [ch.text];
+      let si = 0;
+
+      function next() {
+        if (!ttsOn) return;
+        if (si >= sents.length) {
+          ttsI++;
+          if (ttsI < ttsChs.length) setTimeout(_ttsRead, 800);
+          else ttsStop();
+          return;
+        }
+        const u = new SpeechSynthesisUtterance(sents[si].trim());
+        u.lang = 'ja-JP'; u.rate = ttsRate;
+        const vs = synth.getVoices();
+        const jv = vs.find(v => v.lang && v.lang.startsWith('ja'));
+        if (jv) u.voice = jv;
+        u.onend = () => { si++; next(); };
+        u.onerror = () => { si++; next(); };
+        synth.speak(u);
+      }
+      next();
+    }
+
+    function ttsPause() {
+      if (!ttsOn) return;
+      if (ttsPd) {
+        synth.resume(); ttsPd = false;
+        document.getElementById('ttsPauseBtn').innerHTML = '&#x23f8;';
+      } else {
+        synth.pause(); ttsPd = true;
+        document.getElementById('ttsPauseBtn').innerHTML = '&#x25b6;';
+      }
+    }
+
+    function ttsStop() {
+      synth.cancel(); ttsOn = false; ttsPd = false;
+      document.getElementById('ttsFab').classList.remove('speaking');
+      document.getElementById('ttsFabIcon').innerHTML = '&#x1f50a;';
+      document.getElementById('ttsBar').classList.remove('active');
+      document.getElementById('ttsInfo').textContent = 'Ready';
+      document.getElementById('ttsPauseBtn').innerHTML = '&#x23f8;';
+    }
+
+    function ttsNext() { if (ttsOn && ttsI < ttsChs.length - 1) { ttsI++; _ttsRead(); } }
+    function ttsPrev() { if (ttsOn && ttsI > 0) { ttsI--; _ttsRead(); } }
+    function ttsSetSpeed(v) {
+      ttsRate = parseFloat(v);
+      document.getElementById('ttsSpeedVal').textContent = v + 'x';
+    }
+    if (synth) synth.onvoiceschanged = () => synth.getVoices();
+
+    /* ─── Carousel ─── */
+    (function() {
+      const track = document.getElementById('carouselTrack');
+      if (!track) return;
+      const dots = track.parentElement.querySelectorAll('.carousel-dot');
+      const slides = track.querySelectorAll('.carousel-slide');
+      if (slides.length < 1) return;
+      function updateDots() {
+        const sw = slides[0].offsetWidth + 14;
+        const idx = Math.round(track.scrollLeft / sw);
+        dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+      }
+      track.addEventListener('scroll', updateDots, { passive: true });
+      dots.forEach(d => d.addEventListener('click', () => {
+        const sw = slides[0].offsetWidth + 14;
+        track.scrollTo({ left: parseInt(d.dataset.idx) * sw, behavior: 'smooth' });
+      }));
+      let paused = false, timer = setInterval(() => {
+        if (paused) return;
+        const sw = slides[0].offsetWidth + 14;
+        const mx = track.scrollWidth - track.clientWidth;
+        const nx = track.scrollLeft + sw;
+        track.scrollTo({ left: nx > mx ? 0 : nx, behavior: 'smooth' });
+      }, 4000);
+      track.addEventListener('touchstart', () => { paused = true; clearInterval(timer); }, { passive: true });
+      track.addEventListener('touchend', () => {
+        paused = false;
+        timer = setInterval(() => {
+          if (paused) return;
+          const sw = slides[0].offsetWidth + 14;
+          const mx = track.scrollWidth - track.clientWidth;
+          const nx = track.scrollLeft + sw;
+          track.scrollTo({ left: nx > mx ? 0 : nx, behavior: 'smooth' });
+        }, 4000);
+      }, { passive: true });
+    })();
+
+  </script>
+</body>
+</html>
